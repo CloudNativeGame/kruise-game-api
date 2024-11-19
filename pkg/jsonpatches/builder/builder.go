@@ -7,7 +7,8 @@ import (
 )
 
 type GsJsonPatchBuilder struct {
-	bb bytes.Buffer
+	bb    bytes.Buffer
+	stack []byte
 }
 
 func NewGsJsonPatchBuilder() *GsJsonPatchBuilder {
@@ -16,6 +17,7 @@ func NewGsJsonPatchBuilder() *GsJsonPatchBuilder {
 	}
 
 	b.bb.WriteByte('[')
+	b.stack = append(b.stack, ']')
 
 	return b
 }
@@ -73,8 +75,23 @@ func (g *GsJsonPatchBuilder) ReplaceUpdatePriority(updatePriority int) *GsJsonPa
 }
 
 func (g *GsJsonPatchBuilder) Build() []byte {
-	g.bb.WriteByte(']')
+	for len(g.stack) != 0 {
+		g.bb.WriteByte(g.popByte())
+	}
 	return g.bb.Bytes()
+}
+
+func (g *GsJsonPatchBuilder) popByte() byte {
+	c := g.stack[len(g.stack)-1]
+	g.stack = g.stack[:len(g.stack)-1]
+	return c
+}
+
+func (g *GsJsonPatchBuilder) topByte() byte {
+	if len(g.stack) == 0 {
+		return 0
+	}
+	return g.stack[len(g.stack)-1]
 }
 
 func (g *GsJsonPatchBuilder) Reset() {
