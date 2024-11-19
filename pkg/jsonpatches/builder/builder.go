@@ -62,12 +62,14 @@ func toString[T any](value T) string {
 	panic("unsupported toString type: " + reflect.TypeOf(value).String())
 }
 
-func (g *GsJsonPatchBuilder) ReplaceOpsState(opsState string) {
+func (g *GsJsonPatchBuilder) ReplaceOpsState(opsState string) *GsJsonPatchBuilder {
 	replace(&g.bb, "/spec/opsState", opsState)
+	return g
 }
 
-func (g *GsJsonPatchBuilder) ReplaceUpdatePriority(updatePriority int) {
+func (g *GsJsonPatchBuilder) ReplaceUpdatePriority(updatePriority int) *GsJsonPatchBuilder {
 	replace(&g.bb, "/spec/updatePriority", updatePriority)
+	return g
 }
 
 func (g *GsJsonPatchBuilder) Build() []byte {
