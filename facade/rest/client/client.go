@@ -3,6 +3,7 @@ package client
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/CloudNativeGame/kruise-game-api/facade/rest/apimodels"
 	filterbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/filter"
 	jsonpatchbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/jsonpatches/builder"
@@ -42,7 +43,7 @@ func NewKruiseGameApiHttpClient() *KruiseGameApiHttpClient {
 func (g *KruiseGameApiHttpClient) GetGameServers(filterBuilder *filterbuilder.GsFilterBuilder) ([]*v1alpha1.GameServer, error) {
 	params := url.Values{}
 	params.Add("filter", filterBuilder.Build())
-	u, err := url.Parse(g.serverUrl)
+	u, err := url.Parse(g.serverUrl + "/v1/gameservers")
 	if err != nil {
 		return nil, err
 	}
@@ -52,6 +53,10 @@ func (g *KruiseGameApiHttpClient) GetGameServers(filterBuilder *filterbuilder.Gs
 		return nil, err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("status code %d", resp.StatusCode)
+	}
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
@@ -77,11 +82,15 @@ func (g *KruiseGameApiHttpClient) UpdateGameServers(filterBuilder *filterbuilder
 		return nil, err
 	}
 
-	resp, err := g.httpClient.Post(g.serverUrl, "application/json", bytes.NewBuffer(reqBody))
+	resp, err := g.httpClient.Post(g.serverUrl+"/v1/gameservers", "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("status code %d", resp.StatusCode)
+	}
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
