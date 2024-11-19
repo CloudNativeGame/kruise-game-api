@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kruise-game-api
+  labels:
+    app: kruise-game-api
+  namespace: kruise-game-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kruise-game-api
+  template:
+    metadata:
+      labels:
+        app: kruise-game-api
+    spec:
+      containers:
+        - name: kruise-game-api
+          image: crpi-8cm99ihkk1hz8ju9.cn-shenzhen.personal.cr.aliyuncs.com/scottliu/kruise-game-api:20241119-2
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: 8080
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: 8080
+      serviceAccountName: kruise-game-api-sa
