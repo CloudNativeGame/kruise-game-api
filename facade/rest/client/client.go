@@ -44,7 +44,7 @@ func (g *KruiseGameApiHttpClient) GetGameServers(filterBuilder *filterbuilder.Gs
 	return getResources[*v1alpha1.GameServer](g.httpClient, filterBuilder.Build(), g.serverUrl+"/v1/gameservers")
 }
 
-func (g *KruiseGameApiHttpClient) GetGameServerSets(filterBuilder *filterbuilder.GsFilterBuilder) ([]*v1alpha1.GameServerSet, error) {
+func (g *KruiseGameApiHttpClient) GetGameServerSets(filterBuilder *filterbuilder.GssFilterBuilder) ([]*v1alpha1.GameServerSet, error) {
 	return getResources[*v1alpha1.GameServerSet](g.httpClient, filterBuilder.Build(), g.serverUrl+"/v1/gameserversets")
 }
 
