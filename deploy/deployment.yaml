@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kruise-game-api
+  name: kruise-game-api-server
   labels:
-    app: kruise-game-api
+    app: kruise-game-api-server
   namespace: kruise-game-system
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kruise-game-api
+      app: kruise-game-api-server
   template:
     metadata:
       labels:
-        app: kruise-game-api
+        app: kruise-game-api-server
     spec:
       containers:
-        - name: kruise-game-api
-          image: crpi-8cm99ihkk1hz8ju9.cn-shenzhen.personal.cr.aliyuncs.com/scottliu/kruise-game-api:20241119-2
+        - name: kruise-game-api-server
+          image: crpi-8cm99ihkk1hz8ju9.cn-shenzhen.personal.cr.aliyuncs.com/scottliu/kruise-game-api-server:v0.0.3
           ports:
             - name: http
               containerPort: 8080

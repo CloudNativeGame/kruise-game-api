@@ -3,17 +3,15 @@ package main
 import (
 	"fmt"
 	kruisegameapiclient "github.com/CloudNativeGame/kruise-game-api/facade/rest/client"
-	"github.com/CloudNativeGame/kruise-game-api/pkg/filter"
+	filterbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/filter/builder"
 	jsonpatchbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/jsonpatches/builder"
 	"log/slog"
 	"os"
 )
 
-func main() {
-	_ = os.Setenv("SERVER_URL", "http://192.168.2.2")
-
+func gsDemo() {
 	client := kruisegameapiclient.NewKruiseGameApiHttpClient()
-	f := filter.NewGsFilterBuilder().OpsState("None")
+	f := filterbuilder.NewGsFilterBuilder().OpsState("None")
 	gameServers, err := client.GetGameServers(f)
 	if err != nil {
 		slog.Error("get filtered GameServers failed", "error", err)
@@ -39,4 +37,26 @@ func main() {
 				"gs", result.Gs, "updatedGs", result.UpdatedGs)
 		}
 	}
+}
+
+func gssDemo() {
+	client := kruisegameapiclient.NewKruiseGameApiHttpClient()
+	f := filterbuilder.NewGssFilterBuilder().Namespace("minecraft")
+	gameServerSets, err := client.GetGameServerSets(f)
+	if err != nil {
+		slog.Error("get filtered GameServerSets failed", "error", err)
+		panic(err)
+	}
+
+	slog.Info(fmt.Sprintf("%d GameServerSets matched filter %s", len(gameServerSets), f.Build()))
+	for _, gs := range gameServerSets {
+		slog.Info("filtered GSS", "gss", gs)
+	}
+}
+
+func main() {
+	_ = os.Setenv("SERVER_URL", "http://192.168.2.2")
+
+	gsDemo()
+	gssDemo()
 }
