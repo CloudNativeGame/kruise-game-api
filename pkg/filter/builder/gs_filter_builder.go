@@ -1,4 +1,4 @@
-package filter
+package builder
 
 import (
 	"github.com/CloudNativeGame/structured-filter-go/pkg/builder"
@@ -69,5 +69,45 @@ func (g *GsFilterBuilder) OpsState(opsState string) *GsFilterBuilder {
 
 func (g *GsFilterBuilder) OpsStateObject(obj builder.FilterBuilderObject) *GsFilterBuilder {
 	g.filterBuilder.KObjectV("opsState", obj)
+	return g
+}
+
+func (g *GsFilterBuilder) Namespace(namespace string) *GsFilterBuilder {
+	g.filterBuilder.KStringV("namespace", namespace)
+	return g
+}
+
+func (g *GsFilterBuilder) NamespaceObject(obj builder.FilterBuilderObject) *GsFilterBuilder {
+	g.filterBuilder.KObjectV("namespace", obj)
+	return g
+}
+
+func (g *GsFilterBuilder) CurrentNetworkState(currentNetworkState string) *GsFilterBuilder {
+	g.filterBuilder.KStringV("currentNetworkState", currentNetworkState)
+	return g
+}
+
+func (g *GsFilterBuilder) CurrentNetworkStateObject(obj builder.FilterBuilderObject) *GsFilterBuilder {
+	g.filterBuilder.KObjectV("currentNetworkState", obj)
+	return g
+}
+
+func (g *GsFilterBuilder) CurrentState(currentState string) *GsFilterBuilder {
+	g.filterBuilder.KStringV("currentState", currentState)
+	return g
+}
+
+func (g *GsFilterBuilder) CurrentStateObject(obj builder.FilterBuilderObject) *GsFilterBuilder {
+	g.filterBuilder.KObjectV("currentState", obj)
+	return g
+}
+
+func (g *GsFilterBuilder) DeletionPriority(deletionPriority int) *GsFilterBuilder {
+	g.filterBuilder.KNumberV("deletionPriority", float64(deletionPriority))
+	return g
+}
+
+func (g *GsFilterBuilder) DeletionPriorityObject(obj builder.FilterBuilderObject) *GsFilterBuilder {
+	g.filterBuilder.KObjectV("deletionPriority", obj)
 	return g
 }

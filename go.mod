@@ -3,7 +3,7 @@ module github.com/CloudNativeGame/kruise-game-api
 go 1.23.3
 
 require (
-	github.com/CloudNativeGame/structured-filter-go v0.0.4
+	github.com/CloudNativeGame/structured-filter-go v0.0.5
 	github.com/openkruise/kruise-game v0.9.0
 	k8s.io/apimachinery v0.31.2
 	k8s.io/client-go v0.31.2

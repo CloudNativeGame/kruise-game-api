@@ -8,6 +8,8 @@ github.com/Azure/go-autorest/tracing v0.6.0/go.mod h1:+vhtPC754Xsa23ID7GlGsrdKBp
 github.com/BurntSushi/toml v1.2.1/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/CloudNativeGame/structured-filter-go v0.0.4 h1:MAt+/LpZhZqiN2xh5b7mhOlY6Jt7Uv9hPCLcMHCeHrE=
 github.com/CloudNativeGame/structured-filter-go v0.0.4/go.mod h1:aKqUSSMNmwAw+KZTAwtAQROh7uJMW3ZmqSvecTcAjkY=
+github.com/CloudNativeGame/structured-filter-go v0.0.5 h1:+uLoZq3DjctCeg+aplt7KUAbNUcvGzhWPUPt91Jy6d8=
+github.com/CloudNativeGame/structured-filter-go v0.0.5/go.mod h1:aKqUSSMNmwAw+KZTAwtAQROh7uJMW3ZmqSvecTcAjkY=
 github.com/NYTimes/gziphandler v0.0.0-20170623195520-56545f4a5d46/go.mod h1:3wb06e3pkSAbeQ52E9H9iFoQsEEwGN64994WTCIhntQ=
 github.com/PuerkitoBio/purell v1.1.1/go.mod h1:c11w/QuzBsJSee3cPx9rAFu61PvFxuPbtSwDGJws/X0=
 github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578/go.mod h1:uGdkoq3SwY9Y+13GIhn11/XLaGBb4BfwItxLd5jeuXE=

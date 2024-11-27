@@ -1,4 +1,4 @@
-package filters
+package gs
 
 import (
 	"github.com/CloudNativeGame/structured-filter-go/pkg/factory"

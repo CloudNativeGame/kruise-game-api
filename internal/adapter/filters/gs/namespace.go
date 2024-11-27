@@ -1,4 +1,4 @@
-package filters
+package gs
 
 import (
 	"github.com/CloudNativeGame/structured-filter-go/pkg/factory"
@@ -7,8 +7,8 @@ import (
 	"github.com/openkruise/kruise-game/apis/v1alpha1"
 )
 
-func NewOpsStateFilter(filterFactory *factory.FilterFactory[*v1alpha1.GameServer]) scene_filter.ISceneFilter[*v1alpha1.GameServer] {
-	return scenes.NewStringSceneFilter[*v1alpha1.GameServer]("opsState", func(gs *v1alpha1.GameServer) string {
-		return string(gs.Spec.OpsState)
+func NewNamespaceFilter(filterFactory *factory.FilterFactory[*v1alpha1.GameServer]) scene_filter.ISceneFilter[*v1alpha1.GameServer] {
+	return scenes.NewStringSceneFilter[*v1alpha1.GameServer]("namespace", func(gs *v1alpha1.GameServer) string {
+		return gs.Namespace
 	}, filterFactory)
 }

@@ -16,9 +16,10 @@ type IQueryer interface {
 }
 
 type Queryer struct {
-	selector         labels.Selector
-	gameServerLister v1alpha1Lister.GameServerLister
-	stopCh           chan struct{}
+	selector            labels.Selector
+	gameServerLister    v1alpha1Lister.GameServerLister
+	gameServerSetLister v1alpha1Lister.GameServerSetLister
+	stopCh              chan struct{}
 }
 
 func NewQueryer(option *options.KubeOption) *Queryer {
@@ -37,9 +38,10 @@ func NewQueryer(option *options.KubeOption) *Queryer {
 	gameServerInformerFactory := externalversions.NewSharedInformerFactory(kruiseGameClient, option.InformersReSyncInterval)
 
 	queryer := &Queryer{
-		selector:         labels.Everything(),
-		gameServerLister: gameServerInformerFactory.Game().V1alpha1().GameServers().Lister(),
-		stopCh:           make(chan struct{}),
+		selector:            labels.Everything(),
+		gameServerLister:    gameServerInformerFactory.Game().V1alpha1().GameServers().Lister(),
+		gameServerSetLister: gameServerInformerFactory.Game().V1alpha1().GameServerSets().Lister(),
+		stopCh:              make(chan struct{}),
 	}
 
 	queryer.start(gameServerInformerFactory)
@@ -65,4 +67,12 @@ func (q *Queryer) GetGameServers() ([]*v1alpha1.GameServer, error) {
 		return nil, err
 	}
 	return gameServers, nil
+}
+
+func (q *Queryer) GetGameServerSets() ([]*v1alpha1.GameServerSet, error) {
+	gameServerSets, err := q.gameServerSetLister.List(q.selector)
+	if err != nil {
+		return nil, err
+	}
+	return gameServerSets, nil
 }
