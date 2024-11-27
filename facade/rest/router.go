@@ -11,4 +11,8 @@ func registerRoutes(r *gin.Engine) {
 	gsController := controller.NewGsController()
 	r.GET("/v1/gameservers", gsController.GetGameServers)
 	r.POST("/v1/gameservers", gsController.UpdateGameServers)
+
+	gssController := controller.NewGssController()
+	r.GET("/v1/gameserversets", gssController.GetGameServerSets)
+	r.POST("/v1/gameserversets", gssController.UpdateGameServerSets)
 }

@@ -12,18 +12,18 @@ import (
 	"time"
 )
 
-type GsController struct {
-	filter  *filter.GsFilter
+type GssController struct {
+	filter  *filter.GssFilter
 	updater *updater.Updater
 }
 
-func NewGsController() *GsController {
+func NewGssController() *GssController {
 	kubeOption := options.KubeOption{
 		KubeConfigPath:          os.Getenv("KUBECONFIG"),
 		InformersReSyncInterval: time.Second * 30,
 	}
-	return &GsController{
-		filter: filter.NewGsFilter(&filter.FilterOption{
+	return &GssController{
+		filter: filter.NewGssFilter(&filter.FilterOption{
 			KubeOption: kubeOption,
 		}),
 		updater: updater.NewUpdater(&updater.UpdaterOption{
@@ -32,35 +32,35 @@ func NewGsController() *GsController {
 	}
 }
 
-func (g *GsController) GetGameServers(c *gin.Context) {
+func (g *GssController) GetGameServerSets(c *gin.Context) {
 	rawFilter := c.Query("filter")
-	gameServers, err := g.filter.GetFilteredGameServers(rawFilter)
+	gameServerSets, err := g.filter.GetFilteredGameServerSets(rawFilter)
 	if err != nil {
-		slog.Error("get filtered GameServers failed", "error", err)
+		slog.Error("get filtered GameServerSets failed", "error", err)
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, gameServers)
+	c.JSON(http.StatusOK, gameServerSets)
 }
 
-func (g *GsController) UpdateGameServers(c *gin.Context) {
-	var request apimodels.UpdateGameServersRequest
+func (g *GssController) UpdateGameServerSets(c *gin.Context) {
+	var request apimodels.UpdateGameServerSetsRequest
 	err := c.BindJSON(&request)
 	if err != nil {
-		slog.Error("update GameServers request body error", "error", err)
+		slog.Error("update GameServerSets request body error", "error", err)
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	gameServers, err := g.filter.GetFilteredGameServers(request.Filter)
+	gameServerSets, err := g.filter.GetFilteredGameServerSets(request.Filter)
 	if err != nil {
-		slog.Error("get filtered GameServers failed", "error", err)
+		slog.Error("get filtered GameServerSets failed", "error", err)
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	results := g.updater.UpdateGameServers(gameServers, []byte(request.JsonPatch))
+	results := g.updater.UpdateGameServerSets(gameServerSets, []byte(request.JsonPatch))
 	for _, result := range results {
 		if result.Err != nil {
 			c.JSON(http.StatusInternalServerError, results)

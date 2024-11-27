@@ -3,14 +3,14 @@ module github.com/CloudNativeGame/kruise-game-api/facade/rest
 go 1.23.3
 
 require (
-	github.com/CloudNativeGame/kruise-game-api v0.0.0-20241119131549-7a0a59bed0d0
+	github.com/CloudNativeGame/kruise-game-api v0.0.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/openkruise/kruise-game v0.9.0
 	github.com/samber/slog-gin v1.13.6
 )
 
 require (
-	github.com/CloudNativeGame/structured-filter-go v0.0.4 // indirect
+	github.com/CloudNativeGame/structured-filter-go v0.0.5 // indirect
 	github.com/bytedance/sonic v1.11.9 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect

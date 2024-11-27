@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/CloudNativeGame/kruise-game-api/facade/rest/apimodels"
-	filterbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/filter"
+	filterbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/filter/builder"
 	jsonpatchbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/jsonpatches/builder"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/updater"
 	"github.com/openkruise/kruise-game/apis/v1alpha1"
@@ -41,14 +41,34 @@ func NewKruiseGameApiHttpClient() *KruiseGameApiHttpClient {
 }
 
 func (g *KruiseGameApiHttpClient) GetGameServers(filterBuilder *filterbuilder.GsFilterBuilder) ([]*v1alpha1.GameServer, error) {
+	return getResources[*v1alpha1.GameServer](g.httpClient, filterBuilder.Build(), g.serverUrl+"/v1/gameservers")
+}
+
+func (g *KruiseGameApiHttpClient) GetGameServerSets(filterBuilder *filterbuilder.GsFilterBuilder) ([]*v1alpha1.GameServerSet, error) {
+	return getResources[*v1alpha1.GameServerSet](g.httpClient, filterBuilder.Build(), g.serverUrl+"/v1/gameserversets")
+}
+
+type KruiseGameResource interface {
+	*v1alpha1.GameServer | *v1alpha1.GameServerSet
+}
+
+type UpdateKruiseGameRequest interface {
+	apimodels.UpdateGameServersRequest | apimodels.UpdateGameServerSetsRequest
+}
+
+type UpdateKruiseGameResult interface {
+	updater.UpdateGsResult | updater.UpdateGssResult
+}
+
+func getResources[T KruiseGameResource](httpClient *http.Client, rawFilter, rawUrl string) ([]T, error) {
 	params := url.Values{}
-	params.Add("filter", filterBuilder.Build())
-	u, err := url.Parse(g.serverUrl + "/v1/gameservers")
+	params.Add("filter", rawFilter)
+	u, err := url.Parse(rawUrl)
 	if err != nil {
 		return nil, err
 	}
 	u.RawQuery = params.Encode()
-	resp, err := g.httpClient.Get(u.String())
+	resp, err := httpClient.Get(u.String())
 	if err != nil {
 		return nil, err
 	}
@@ -63,26 +83,21 @@ func (g *KruiseGameApiHttpClient) GetGameServers(filterBuilder *filterbuilder.Gs
 		return nil, err
 	}
 
-	var gameServers []*v1alpha1.GameServer
-	err = json.Unmarshal(respBody, &gameServers)
+	var resources []T
+	err = json.Unmarshal(respBody, &resources)
 	if err != nil {
 		return nil, err
 	}
-	return gameServers, nil
+	return resources, nil
 }
 
-func (g *KruiseGameApiHttpClient) UpdateGameServers(filterBuilder *filterbuilder.GsFilterBuilder, jsonPatchBuilder *jsonpatchbuilder.GsJsonPatchBuilder) ([]updater.UpdateResult, error) {
-	request := apimodels.UpdateGameServersRequest{
-		Filter:    filterBuilder.Build(),
-		JsonPatch: string(jsonPatchBuilder.Build()),
-	}
-
+func updateResources[TReq UpdateKruiseGameRequest, TRes UpdateKruiseGameResult](httpClient *http.Client, request TReq, rawUrl string) ([]TRes, error) {
 	reqBody, err := json.Marshal(request)
 	if err != nil {
 		return nil, err
 	}
 
-	resp, err := g.httpClient.Post(g.serverUrl+"/v1/gameservers", "application/json", bytes.NewBuffer(reqBody))
+	resp, err := httpClient.Post(rawUrl, "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
 		return nil, err
 	}
@@ -97,11 +112,25 @@ func (g *KruiseGameApiHttpClient) UpdateGameServers(filterBuilder *filterbuilder
 		return nil, err
 	}
 
-	var updateResults []updater.UpdateResult
+	var updateResults []TRes
 	err = json.Unmarshal(respBody, &updateResults)
 	if err != nil {
 		return nil, err
 	}
 
 	return updateResults, nil
+}
+
+func (g *KruiseGameApiHttpClient) UpdateGameServers(filterBuilder *filterbuilder.GsFilterBuilder, jsonPatchBuilder *jsonpatchbuilder.GsJsonPatchBuilder) ([]updater.UpdateGsResult, error) {
+	return updateResources[apimodels.UpdateGameServersRequest, updater.UpdateGsResult](g.httpClient, apimodels.UpdateGameServersRequest{
+		Filter:    filterBuilder.Build(),
+		JsonPatch: string(jsonPatchBuilder.Build()),
+	}, g.serverUrl+"/v1/gameservers")
+}
+
+func (g *KruiseGameApiHttpClient) UpdateGameServerSets(filterBuilder *filterbuilder.GsFilterBuilder, jsonPatchBuilder *jsonpatchbuilder.GsJsonPatchBuilder) ([]updater.UpdateGssResult, error) {
+	return updateResources[apimodels.UpdateGameServerSetsRequest, updater.UpdateGssResult](g.httpClient, apimodels.UpdateGameServerSetsRequest{
+		Filter:    filterBuilder.Build(),
+		JsonPatch: string(jsonPatchBuilder.Build()),
+	}, g.serverUrl+"/v1/gameserversets")
 }

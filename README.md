@@ -5,13 +5,23 @@ Filtering query and update operation API for kruise-game resources.
 ## Overview
 
 * This repository provides three request ways: command line, REST interface, and go language package to implement filtering and updating of kruise-game resources.
-* The filter syntax is based on this repository: [structured-filter-go](https://github.com/CloudNativeGame/structured-filter-go). Implemented the following Scene filters:
+* The filter syntax is based on this repository: [structured-filter-go](https://github.com/CloudNativeGame/structured-filter-go).
+* GameServer implemented the following Scene filters:
 
-| Key            | Value Type    | Resource Kind | Filtered Field       | Filter Examples                                    |
-|----------------|---------------|---------------|----------------------|----------------------------------------------------|
-| namespace      | String Filter | GS            | /metadata/namespace  | `{"namespace": {"$in":["minecraft", "terraria"]}}` |
-| opsState       | String Filter | GS            | /spec/opsState       | `{"opsState": {"$eq": "None"}}`                    |
-| updatePriority | Number Filter | GS            | /spec/updatePriority | `{"updatePriority": {"$ne": 0}}`                   |
+| Key                 | Value Type    | Filtered Field                            | Filter Examples                                    |
+|---------------------|---------------|-------------------------------------------|----------------------------------------------------|
+| namespace           | String Filter | /metadata/namespace                       | `{"namespace": {"$in":["minecraft", "terraria"]}}` |
+| opsState            | String Filter | /spec/opsState                            | `{"opsState": {"$eq": "None"}}`                    |
+| updatePriority      | Number Filter | /spec/updatePriority                      | `{"updatePriority": {"$ne": 0}}`                   |
+| deletionPriority    | Number Filter | /spec/deletionPriority                    | `{"deletionPriority": {"$ne": 0}}`                 |
+| currentState        | String Filter | /status/currentState                      | `{"currentState": {"$eq": "Ready"}}`               |
+| currentNetworkState | String Filter | /status/networkStatus/currentNetworkState | `{"currentNetworkState": {"$eq": "Ready"}}`        |
+
+* GameServerSet implemented the following Scene filters:
+
+| Key            | Value Type    | Filtered Field       | Filter Examples                                    |
+|----------------|---------------|----------------------|----------------------------------------------------|
+| namespace      | String Filter | /metadata/namespace  | `{"namespace": {"$in":["minecraft", "terraria"]}}` |
 
 * Use [JSON Patch](https://datatracker.ietf.org/doc/html/rfc6902) as update syntax.
 
@@ -39,6 +49,18 @@ Response body:
 []v1alpha1.GameServer
 ```
 
+Get filtered game server sets:
+
+```
+GET /v1/gameserversets
+
+Query parameters:
+filter string
+
+Response body:
+[]v1alpha1.GameServerSet
+```
+
 Update game servers:
 
 ```
@@ -48,17 +70,40 @@ Request body:
 UpdateGameServersRequest
 
 Response body:
-[]UpdateResult
+[]UpdateGsResult
 
 type UpdateGameServersRequest struct {
 	Filter    string `json:"filter"`
 	JsonPatch string `json:"jsonPatch"`
 }
 
-type UpdateResult struct {
+type UpdateGsResult struct {
 	Gs        *v1alpha1.GameServer `json:"gs"`
 	UpdatedGs *v1alpha1.GameServer `json:"updatedGs"`
 	Err       error                `json:"err"`
+}
+```
+
+Update game server sets:
+
+```
+POST /v1/gameserversets
+
+Request body:
+UpdateGameServerSetsRequest
+
+Response body:
+[]UpdateGssResult
+
+type UpdateGameServerSetsRequest struct {
+	Filter    string `json:"filter"`
+	JsonPatch string `json:"jsonPatch"`
+}
+
+type UpdateGssResult struct {
+	Gss        *v1alpha1.GameServerSet `json:"gss"`
+	UpdatedGss *v1alpha1.GameServerSet `json:"updatedGss"`
+	Err        error                   `json:"err"`
 }
 ```
 
