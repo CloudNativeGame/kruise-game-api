@@ -1,5 +1,5 @@
-github.com/CloudNativeGame/kruise-game-api v0.0.2 h1:3rrhVkNIynepNn2KIH173Z7SYrJPmZvq+azMMKG7rSI=
-github.com/CloudNativeGame/kruise-game-api v0.0.2/go.mod h1:BoIQAaHikm79HtHFLyRdxSXRBjdiY9oppNWMiFCYpxc=
+github.com/CloudNativeGame/kruise-game-api v0.0.3 h1:u801vC7Emj3L7+8sEvol4PgQqYqStHZebwRzIeuQUiA=
+github.com/CloudNativeGame/kruise-game-api v0.0.3/go.mod h1:BoIQAaHikm79HtHFLyRdxSXRBjdiY9oppNWMiFCYpxc=
 github.com/CloudNativeGame/structured-filter-go v0.0.5 h1:+uLoZq3DjctCeg+aplt7KUAbNUcvGzhWPUPt91Jy6d8=
 github.com/CloudNativeGame/structured-filter-go v0.0.5/go.mod h1:aKqUSSMNmwAw+KZTAwtAQROh7uJMW3ZmqSvecTcAjkY=
 github.com/bytedance/sonic v1.11.9 h1:LFHENlIY/SLzDWverzdOvgMztTxcfcF+cqNsz9pK5zg=

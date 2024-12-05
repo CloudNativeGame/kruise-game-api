@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/CloudNativeGame/kruise-game-api/facade/rest/apimodels"
+	"github.com/CloudNativeGame/kruise-game-api/pkg/deleter"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/filter"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/options"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/updater"
@@ -15,6 +16,7 @@ import (
 type GssController struct {
 	filter  *filter.GssFilter
 	updater *updater.Updater
+	deleter *deleter.Deleter
 }
 
 func NewGssController() *GssController {
@@ -27,6 +29,9 @@ func NewGssController() *GssController {
 			KubeOption: kubeOption,
 		}),
 		updater: updater.NewUpdater(&updater.UpdaterOption{
+			KubeOption: kubeOption,
+		}),
+		deleter: deleter.NewDeleter(&deleter.DeleterOption{
 			KubeOption: kubeOption,
 		}),
 	}
@@ -61,6 +66,26 @@ func (g *GssController) UpdateGameServerSets(c *gin.Context) {
 	}
 
 	results := g.updater.UpdateGameServerSets(gameServerSets, []byte(request.JsonPatch))
+	for _, result := range results {
+		if result.Err != nil {
+			c.JSON(http.StatusInternalServerError, results)
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, results)
+}
+
+func (g *GssController) DeleteGameServerSets(c *gin.Context) {
+	rawFilter := c.Query("filter")
+	gameServerSets, err := g.filter.GetFilteredGameServerSets(rawFilter)
+	if err != nil {
+		slog.Error("get filtered GameServerSets failed", "error", err)
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	results := g.deleter.DeleteGameServerSets(gameServerSets)
 	for _, result := range results {
 		if result.Err != nil {
 			c.JSON(http.StatusInternalServerError, results)

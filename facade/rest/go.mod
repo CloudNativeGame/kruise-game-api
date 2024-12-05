@@ -3,7 +3,7 @@ module github.com/CloudNativeGame/kruise-game-api/facade/rest
 go 1.23.3
 
 require (
-	github.com/CloudNativeGame/kruise-game-api v0.0.2
+	github.com/CloudNativeGame/kruise-game-api v0.0.3
 	github.com/gin-gonic/gin v1.10.0
 	github.com/openkruise/kruise-game v0.9.0
 	github.com/samber/slog-gin v1.13.6
