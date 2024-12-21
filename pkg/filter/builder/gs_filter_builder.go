@@ -29,6 +29,11 @@ func (g *GsFilterBuilder) KStringV(key string, value string) *GsFilterBuilder {
 	return g
 }
 
+func (g *GsFilterBuilder) KStringArrayV(key string, value []string) *GsFilterBuilder {
+	g.filterBuilder.KStringArrayV(key, value)
+	return g
+}
+
 func (g *GsFilterBuilder) KBoolV(key string, value bool) *GsFilterBuilder {
 	g.filterBuilder.KBoolV(key, value)
 	return g
@@ -36,6 +41,11 @@ func (g *GsFilterBuilder) KBoolV(key string, value bool) *GsFilterBuilder {
 
 func (g *GsFilterBuilder) KNumberV(key string, value float64) *GsFilterBuilder {
 	g.filterBuilder.KNumberV(key, value)
+	return g
+}
+
+func (g *GsFilterBuilder) KNumberArrayV(key string, value []float64) *GsFilterBuilder {
+	g.filterBuilder.KNumberArrayV(key, value)
 	return g
 }
 
@@ -109,5 +119,15 @@ func (g *GsFilterBuilder) DeletionPriority(deletionPriority int) *GsFilterBuilde
 
 func (g *GsFilterBuilder) DeletionPriorityObject(obj builder.FilterBuilderObject) *GsFilterBuilder {
 	g.filterBuilder.KObjectV("deletionPriority", obj)
+	return g
+}
+
+func (g *GsFilterBuilder) Images(containerImages []ContainerImage) *GsFilterBuilder {
+	g.filterBuilder.KStringArrayV("images", ContainerImagesToStringArray(containerImages))
+	return g
+}
+
+func (g *GsFilterBuilder) ImagesObject(obj builder.FilterBuilderObject) *GsFilterBuilder {
+	g.filterBuilder.KObjectV("images", obj)
 	return g
 }

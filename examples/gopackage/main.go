@@ -5,6 +5,7 @@ import (
 	"github.com/CloudNativeGame/kruise-game-api/pkg/filter"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/filter/builder"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/options"
+	objectbuilder "github.com/CloudNativeGame/structured-filter-go/pkg/builder"
 	"log/slog"
 	"time"
 )
@@ -48,7 +49,12 @@ func gssDemo() {
 	time.Sleep(time.Second)
 
 	filterBuilder := builder.NewGssFilterBuilder()
-	rawFilter := filterBuilder.Namespace("minecraft").Build()
+	rawFilter := filterBuilder.ImagesObject(objectbuilder.StringArrayAll(builder.ContainerImagesToStringArray([]builder.ContainerImage{
+		{
+			ContainerName: "busybox",
+			Image:         "busybox:latest",
+		},
+	}))).Build()
 	filterBuilder.Reset()
 	//rawFilter := "{\"namespace\": \"minecraft\"}"
 	gameServerSets, err := gssFilter.GetFilteredGameServerSets(rawFilter)

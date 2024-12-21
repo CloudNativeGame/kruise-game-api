@@ -20,6 +20,9 @@ func NewGssFilter(option *FilterOption) *GssFilter {
 		func(f *factory.FilterFactory[*v1alpha1.GameServerSet]) scene_filter.ISceneFilter[*v1alpha1.GameServerSet] {
 			return gssfilters.NewNamespaceFilter(f)
 		},
+		func(f *factory.FilterFactory[*v1alpha1.GameServerSet]) scene_filter.ISceneFilter[*v1alpha1.GameServerSet] {
+			return gssfilters.NewImagesFilter(f)
+		},
 	})
 
 	return &GssFilter{

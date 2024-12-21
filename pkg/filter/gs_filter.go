@@ -35,6 +35,9 @@ func NewGsFilter(option *FilterOption) *GsFilter {
 		func(f *factory.FilterFactory[*v1alpha1.GameServer]) scene_filter.ISceneFilter[*v1alpha1.GameServer] {
 			return gsfilters.NewCurrentNetworkStateFilter(f)
 		},
+		func(f *factory.FilterFactory[*v1alpha1.GameServer]) scene_filter.ISceneFilter[*v1alpha1.GameServer] {
+			return gsfilters.NewImagesFilter(f)
+		},
 	})
 
 	return &GsFilter{

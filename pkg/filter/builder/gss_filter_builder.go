@@ -29,6 +29,11 @@ func (g *GssFilterBuilder) KStringV(key string, value string) *GssFilterBuilder 
 	return g
 }
 
+func (g *GssFilterBuilder) KStringArrayV(key string, value []string) *GssFilterBuilder {
+	g.filterBuilder.KStringArrayV(key, value)
+	return g
+}
+
 func (g *GssFilterBuilder) KBoolV(key string, value bool) *GssFilterBuilder {
 	g.filterBuilder.KBoolV(key, value)
 	return g
@@ -36,6 +41,11 @@ func (g *GssFilterBuilder) KBoolV(key string, value bool) *GssFilterBuilder {
 
 func (g *GssFilterBuilder) KNumberV(key string, value float64) *GssFilterBuilder {
 	g.filterBuilder.KNumberV(key, value)
+	return g
+}
+
+func (g *GssFilterBuilder) KNumberArrayV(key string, value []float64) *GssFilterBuilder {
+	g.filterBuilder.KNumberArrayV(key, value)
 	return g
 }
 
@@ -59,5 +69,15 @@ func (g *GssFilterBuilder) Namespace(namespace string) *GssFilterBuilder {
 
 func (g *GssFilterBuilder) NamespaceObject(obj builder.FilterBuilderObject) *GssFilterBuilder {
 	g.filterBuilder.KObjectV("namespace", obj)
+	return g
+}
+
+func (g *GssFilterBuilder) Images(containerImages []ContainerImage) *GssFilterBuilder {
+	g.filterBuilder.KStringArrayV("images", ContainerImagesToStringArray(containerImages))
+	return g
+}
+
+func (g *GssFilterBuilder) ImagesObject(obj builder.FilterBuilderObject) *GssFilterBuilder {
+	g.filterBuilder.KObjectV("images", obj)
 	return g
 }
