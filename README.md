@@ -144,7 +144,7 @@ type DeleteGssResult struct {
 
 * Use the HTTP client to call the REST interface. See [examples](https://github.com/CloudNativeGame/kruise-game-api/blob/main/examples/rest/curl/curl.sh).
 
-* Also, can use the `KruiseGameApiHttpClient` provided by package `github.com/CloudNativeGame/kruise-game-api/facade/rest/client` in golang code. See [examples](https://github.com/CloudNativeGame/kruise-game-api/blob/main/examples/rest/main.go).
+* Also, can use the `KruiseGameApiHttpClient` provided by package `github.com/CloudNativeGame/kruise-game-api/facade/apiserver/client` in golang code. See [examples](https://github.com/CloudNativeGame/kruise-game-api/blob/main/examples/rest/main.go).
 
 ### Command line
 

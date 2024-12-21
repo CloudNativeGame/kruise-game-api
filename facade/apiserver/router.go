@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/CloudNativeGame/kruise-game-api/facade/rest/controller"
+	"github.com/CloudNativeGame/kruise-game-api/facade/apiserver/controller"
 	"github.com/gin-gonic/gin"
 )
 

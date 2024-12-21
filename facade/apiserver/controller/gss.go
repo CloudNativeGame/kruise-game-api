@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/CloudNativeGame/kruise-game-api/facade/rest/apimodels"
-	"github.com/CloudNativeGame/kruise-game-api/facade/rest/service"
+	"github.com/CloudNativeGame/kruise-game-api/facade/apiserver/apimodels"
+	"github.com/CloudNativeGame/kruise-game-api/facade/apiserver/service"
 	"github.com/gin-gonic/gin"
 	"log/slog"
 	"net/http"

@@ -1,4 +1,4 @@
-module github.com/CloudNativeGame/kruise-game-api/facade/rest
+module github.com/CloudNativeGame/kruise-game-api/facade/apiserver
 
 go 1.23.3
 

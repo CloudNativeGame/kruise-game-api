@@ -1,8 +1,8 @@
 package main
 
 import (
-	api "github.com/CloudNativeGame/kruise-game-api/facade/rest/grpc"
-	grpcapi "github.com/CloudNativeGame/kruise-game-api/facade/rest/proto"
+	api "github.com/CloudNativeGame/kruise-game-api/facade/apiserver/grpc"
+	grpcapi "github.com/CloudNativeGame/kruise-game-api/facade/apiserver/proto"
 	"github.com/gin-gonic/gin"
 	"github.com/soheilhy/cmux"
 	"google.golang.org/grpc"

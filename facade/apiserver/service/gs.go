@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/CloudNativeGame/kruise-game-api/facade/rest/apimodels"
+	"github.com/CloudNativeGame/kruise-game-api/facade/apiserver/apimodels"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/deleter"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/filter"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/options"

@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"encoding/json"
-	"github.com/CloudNativeGame/kruise-game-api/facade/rest/apimodels"
-	api "github.com/CloudNativeGame/kruise-game-api/facade/rest/proto"
-	"github.com/CloudNativeGame/kruise-game-api/facade/rest/service"
+	"github.com/CloudNativeGame/kruise-game-api/facade/apiserver/apimodels"
+	api "github.com/CloudNativeGame/kruise-game-api/facade/apiserver/proto"
+	"github.com/CloudNativeGame/kruise-game-api/facade/apiserver/service"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/deleter"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/updater"
 	"github.com/openkruise/kruise-game/apis/v1alpha1"

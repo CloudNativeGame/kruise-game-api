@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/CloudNativeGame/kruise-game-api/facade/rest/apimodels"
+	"github.com/CloudNativeGame/kruise-game-api/facade/apiserver/apimodels"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/deleter"
 	filterbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/filter/builder"
 	jsonpatchbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/jsonpatches/builder"
