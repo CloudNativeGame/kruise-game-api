@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	kruisegameapiclient "github.com/CloudNativeGame/kruise-game-api/facade/rest/client"
+	kruisegameapiclient "github.com/CloudNativeGame/kruise-game-api/facade/apiserver/client"
 	filterbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/filter/builder"
 	jsonpatchbuilder "github.com/CloudNativeGame/kruise-game-api/pkg/jsonpatches/builder"
 	"log/slog"

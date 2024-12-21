@@ -1,9 +1,9 @@
-github.com/CloudNativeGame/kruise-game-api v0.0.2 h1:3rrhVkNIynepNn2KIH173Z7SYrJPmZvq+azMMKG7rSI=
-github.com/CloudNativeGame/kruise-game-api v0.0.2/go.mod h1:BoIQAaHikm79HtHFLyRdxSXRBjdiY9oppNWMiFCYpxc=
-github.com/CloudNativeGame/kruise-game-api/facade/rest v0.0.3 h1:GkF1KfO3lm+vy3FCkXPiXmmsiSBel/er6dLH5S7R7I4=
-github.com/CloudNativeGame/kruise-game-api/facade/rest v0.0.3/go.mod h1:5pn0p8h5lOT1yfiU0+matyuw3kHuHju7LCFw/ux9ht8=
-github.com/CloudNativeGame/structured-filter-go v0.0.5 h1:+uLoZq3DjctCeg+aplt7KUAbNUcvGzhWPUPt91Jy6d8=
-github.com/CloudNativeGame/structured-filter-go v0.0.5/go.mod h1:aKqUSSMNmwAw+KZTAwtAQROh7uJMW3ZmqSvecTcAjkY=
+github.com/CloudNativeGame/kruise-game-api v0.0.4 h1:0lzFWse2zzQcyE4UdsDs7pcaGUozFa4PKslA7yupNeY=
+github.com/CloudNativeGame/kruise-game-api v0.0.4/go.mod h1:WDjtv+8ww3RzEYkfUiRvm+RCCdCY59u0tCCNUIayUTo=
+github.com/CloudNativeGame/kruise-game-api/facade/apiserver v0.0.5 h1:uS2B8y8/mw6BrkI5IZwmz9m1stIMaIP578qjzqJUtM0=
+github.com/CloudNativeGame/kruise-game-api/facade/apiserver v0.0.5/go.mod h1:tgt3Y8DrSXPB2ornoSaCwzzfktBH4ZWFOJ42yR+RCVg=
+github.com/CloudNativeGame/structured-filter-go v0.0.6 h1:/VrhhOzWwujVI+SDGAaSeg8vULdyoH9judMn7RpnCPE=
+github.com/CloudNativeGame/structured-filter-go v0.0.6/go.mod h1:aKqUSSMNmwAw+KZTAwtAQROh7uJMW3ZmqSvecTcAjkY=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=

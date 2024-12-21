@@ -3,12 +3,12 @@ module github.com/CloudNativeGame/kruise-game-api/examples/rest
 go 1.23.3
 
 require (
-	github.com/CloudNativeGame/kruise-game-api v0.0.2
-	github.com/CloudNativeGame/kruise-game-api/facade/rest v0.0.3
+	github.com/CloudNativeGame/kruise-game-api v0.0.4
+	github.com/CloudNativeGame/kruise-game-api/facade/apiserver v0.0.5
 )
 
 require (
-	github.com/CloudNativeGame/structured-filter-go v0.0.5 // indirect
+	github.com/CloudNativeGame/structured-filter-go v0.0.6 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/emicklei/go-restful/v3 v3.12.1 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
