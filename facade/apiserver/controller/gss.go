@@ -2,44 +2,25 @@ package controller
 
 import (
 	"github.com/CloudNativeGame/kruise-game-api/facade/rest/apimodels"
-	"github.com/CloudNativeGame/kruise-game-api/pkg/deleter"
-	"github.com/CloudNativeGame/kruise-game-api/pkg/filter"
-	"github.com/CloudNativeGame/kruise-game-api/pkg/options"
-	"github.com/CloudNativeGame/kruise-game-api/pkg/updater"
+	"github.com/CloudNativeGame/kruise-game-api/facade/rest/service"
 	"github.com/gin-gonic/gin"
 	"log/slog"
 	"net/http"
-	"os"
-	"time"
 )
 
 type GssController struct {
-	filter  *filter.GssFilter
-	updater *updater.Updater
-	deleter *deleter.Deleter
+	service.GssService
 }
 
 func NewGssController() *GssController {
-	kubeOption := options.KubeOption{
-		KubeConfigPath:          os.Getenv("KUBECONFIG"),
-		InformersReSyncInterval: time.Second * 30,
-	}
 	return &GssController{
-		filter: filter.NewGssFilter(&filter.FilterOption{
-			KubeOption: kubeOption,
-		}),
-		updater: updater.NewUpdater(&updater.UpdaterOption{
-			KubeOption: kubeOption,
-		}),
-		deleter: deleter.NewDeleter(&deleter.DeleterOption{
-			KubeOption: kubeOption,
-		}),
+		GssService: *service.GetGssService(),
 	}
 }
 
 func (g *GssController) GetGameServerSets(c *gin.Context) {
 	rawFilter := c.Query("filter")
-	gameServerSets, err := g.filter.GetFilteredGameServerSets(rawFilter)
+	gameServerSets, err := g.GssService.GetGameServerSets(rawFilter)
 	if err != nil {
 		slog.Error("get filtered GameServerSets failed", "error", err)
 		c.String(http.StatusInternalServerError, err.Error())
@@ -58,14 +39,12 @@ func (g *GssController) UpdateGameServerSets(c *gin.Context) {
 		return
 	}
 
-	gameServerSets, err := g.filter.GetFilteredGameServerSets(request.Filter)
+	results, err := g.GssService.UpdateGameServerSets(&request)
 	if err != nil {
 		slog.Error("get filtered GameServerSets failed", "error", err)
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-
-	results := g.updater.UpdateGameServerSets(gameServerSets, []byte(request.JsonPatch))
 	for _, result := range results {
 		if result.Err != nil {
 			c.JSON(http.StatusInternalServerError, results)
@@ -78,14 +57,12 @@ func (g *GssController) UpdateGameServerSets(c *gin.Context) {
 
 func (g *GssController) DeleteGameServerSets(c *gin.Context) {
 	rawFilter := c.Query("filter")
-	gameServerSets, err := g.filter.GetFilteredGameServerSets(rawFilter)
+	results, err := g.GssService.DeleteGameServerSets(rawFilter)
 	if err != nil {
 		slog.Error("get filtered GameServerSets failed", "error", err)
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-
-	results := g.deleter.DeleteGameServerSets(gameServerSets)
 	for _, result := range results {
 		if result.Err != nil {
 			c.JSON(http.StatusInternalServerError, results)

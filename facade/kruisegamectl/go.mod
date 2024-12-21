@@ -3,13 +3,13 @@ module github.com/CloudNativeGame/kruise-game-api/facade/kruisegamectl
 go 1.23.3
 
 require (
-	github.com/CloudNativeGame/kruise-game-api v0.0.3
+	github.com/CloudNativeGame/kruise-game-api v0.0.4
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/openkruise/kruise-game v0.9.0
 )
 
 require (
-	github.com/CloudNativeGame/structured-filter-go v0.0.5 // indirect
+	github.com/CloudNativeGame/structured-filter-go v0.0.6 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect

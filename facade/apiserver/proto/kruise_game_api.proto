@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+option go_package = "github.com/CloudNativeGame/kruise-game-api/facade/apiserver/api";
+
+package kruisegameapi;
+
+service GameServerService {
+  rpc GetGameServers (GetGameServersRequest) returns (GetGameServersResponse);
+  rpc UpdateGameServers (UpdateGameServersRequest) returns (UpdateGameServersResponse);
+  rpc DeleteGameServers (DeleteGameServersRequest) returns (DeleteGameServersResponse);
+}
+
+message GetGameServersRequest {
+  string filter = 1;
+}
+
+message GetGameServersResponse {
+  repeated string game_servers = 1;
+}
+
+message UpdateGameServersRequest {
+  string filter = 1;
+  string json_patch = 2;
+}
+
+message UpdateGameServersResponse {
+  repeated UpdateGameServerResult results = 1;
+}
+
+message UpdateGameServerResult {
+  string game_server = 1;
+  string updated_game_server = 2;
+  optional string error = 3;
+}
+
+message DeleteGameServersRequest {
+  string filter = 1;
+}
+
+message DeleteGameServersResponse {
+  repeated DeleteGameServerResult results = 1;
+}
+
+message DeleteGameServerResult {
+  string game_server = 1;
+  optional string error = 2;
+}
+
+service GameServerSetService {
+  rpc GetGameServerSets (GetGameServerSetsRequest) returns (GetGameServerSetsResponse);
+  rpc UpdateGameServerSets (UpdateGameServerSetsRequest) returns (UpdateGameServerSetsResponse);
+  rpc DeleteGameServerSets (DeleteGameServerSetsRequest) returns (DeleteGameServerSetsResponse);
+}
+
+message GetGameServerSetsRequest {
+  string filter = 1;
+}
+
+message GetGameServerSetsResponse {
+  repeated string game_server_sets = 1;
+}
+
+message UpdateGameServerSetsRequest {
+  string filter = 1;
+  string json_patch = 2;
+}
+
+message UpdateGameServerSetsResponse {
+  repeated UpdateGameServerSetResult results = 1;
+}
+
+message UpdateGameServerSetResult {
+  string game_server_set = 1;
+  string updated_game_server_set = 2;
+  optional string error = 3;
+}
+
+message DeleteGameServerSetsRequest {
+  string filter = 1;
+}
+
+message DeleteGameServerSetsResponse {
+  repeated DeleteGameServerSetResult results = 1;
+}
+
+message DeleteGameServerSetResult {
+  string game_server_set = 1;
+  optional string error = 2;
+}
