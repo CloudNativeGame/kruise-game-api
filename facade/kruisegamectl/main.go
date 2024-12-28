@@ -62,57 +62,64 @@ func main() {
 
 	if cmdOption.ResourceKind == "gameserverset" {
 		if cmdOption.JsonPatch != "" {
-			result, err := patchGameServerSets(&kubeOption, &cmdOption)
+			result, code, err := patchGameServerSets(&kubeOption, &cmdOption)
 			if err != nil {
 				slog.Error("patch GameServerSets failed", "error", err.Error())
-				os.Exit(1)
+			} else {
+				fmt.Println(result)
 			}
-			fmt.Println(result)
+			os.Exit(code)
+
 		} else if cmdOption.Deletion {
-			result, err := deleteGameServerSets(&kubeOption, &cmdOption)
+			result, code, err := deleteGameServerSets(&kubeOption, &cmdOption)
 			if err != nil {
 				slog.Error("delete GameServerSets failed", "error", err.Error())
-				os.Exit(1)
+			} else {
+				fmt.Println(result)
 			}
-			fmt.Println(result)
+			os.Exit(code)
 		} else {
-			result, err := getGameServerSets(&kubeOption, &cmdOption)
+			result, code, err := getGameServerSets(&kubeOption, &cmdOption)
 			if err != nil {
 				slog.Error("get GameServerSets failed", "error", err.Error())
-				os.Exit(1)
+			} else {
+				fmt.Println(result)
 			}
-			fmt.Println(result)
+			os.Exit(code)
 		}
 	} else if cmdOption.ResourceKind == "gameserver" {
 		if cmdOption.JsonPatch != "" {
-			result, err := patchGameServers(&kubeOption, &cmdOption)
+			result, code, err := patchGameServers(&kubeOption, &cmdOption)
 			if err != nil {
 				slog.Error("patch GameServers failed", "error", err.Error())
-				os.Exit(1)
+			} else {
+				fmt.Println(result)
 			}
-			fmt.Println(result)
+			os.Exit(code)
 		} else if cmdOption.Deletion {
-			result, err := deleteGameServers(&kubeOption, &cmdOption)
+			result, code, err := deleteGameServers(&kubeOption, &cmdOption)
 			if err != nil {
 				slog.Error("delete GameServers failed", "error", err.Error())
-				os.Exit(1)
+			} else {
+				fmt.Println(result)
 			}
-			fmt.Println(result)
+			os.Exit(code)
 		} else {
-			result, err := getGameServers(&kubeOption, &cmdOption)
+			result, code, err := getGameServers(&kubeOption, &cmdOption)
 			if err != nil {
 				slog.Error("get GameServers failed", "error", err.Error())
-				os.Exit(1)
+			} else {
+				fmt.Println(result)
 			}
-			fmt.Println(result)
+			os.Exit(code)
 		}
 	}
 }
 
-func getGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, error) {
+func getGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, int, error) {
 	gameServerSets, err := getFilteredGameServerSets(kubeOption, cmdOption)
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
 	var resultsJson []byte
@@ -122,20 +129,20 @@ func getGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOption) (st
 		resultsJson, err = json.Marshal(gameServerSets)
 	}
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
-	return string(resultsJson), nil
+	return string(resultsJson), 0, nil
 }
 
-func patchGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, error) {
+func patchGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, int, error) {
 	u := updater.NewUpdater(&updater.UpdaterOption{
 		KubeOption: *kubeOption,
 	})
 
 	gameServerSets, err := getFilteredGameServerSets(kubeOption, cmdOption)
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
 	results := u.UpdateGameServerSets(gameServerSets, []byte(cmdOption.JsonPatch))
@@ -146,20 +153,26 @@ func patchGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOption) (
 		resultsJson, err = json.Marshal(results)
 	}
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
-	return string(resultsJson), nil
+	for _, result := range results {
+		if result.Err != nil {
+			return string(resultsJson), 2, nil
+		}
+	}
+
+	return string(resultsJson), 0, nil
 }
 
-func deleteGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, error) {
+func deleteGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, int, error) {
 	d := deleter.NewDeleter(&deleter.DeleterOption{
 		KubeOption: *kubeOption,
 	})
 
 	gameServerSets, err := getFilteredGameServerSets(kubeOption, cmdOption)
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
 	results := d.DeleteGameServerSets(gameServerSets)
@@ -170,10 +183,16 @@ func deleteGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOption) 
 		resultsJson, err = json.Marshal(results)
 	}
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
-	return string(resultsJson), nil
+	for _, result := range results {
+		if result.Err != nil {
+			return string(resultsJson), 2, nil
+		}
+	}
+
+	return string(resultsJson), 0, nil
 }
 
 func getFilteredGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOption) ([]*v1alpha1.GameServerSet, error) {
@@ -192,10 +211,10 @@ func getFilteredGameServerSets(kubeOption *options.KubeOption, cmdOption *CmdOpt
 	return gameServerSets, nil
 }
 
-func getGameServers(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, error) {
+func getGameServers(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, int, error) {
 	gameServers, err := getFilteredGameServers(kubeOption, cmdOption)
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
 	var resultsJson []byte
@@ -205,20 +224,20 @@ func getGameServers(kubeOption *options.KubeOption, cmdOption *CmdOption) (strin
 		resultsJson, err = json.Marshal(gameServers)
 	}
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
-	return string(resultsJson), nil
+	return string(resultsJson), 1, nil
 }
 
-func patchGameServers(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, error) {
+func patchGameServers(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, int, error) {
 	u := updater.NewUpdater(&updater.UpdaterOption{
 		KubeOption: *kubeOption,
 	})
 
 	gameServers, err := getFilteredGameServers(kubeOption, cmdOption)
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
 	results := u.UpdateGameServers(gameServers, []byte(cmdOption.JsonPatch))
@@ -229,20 +248,26 @@ func patchGameServers(kubeOption *options.KubeOption, cmdOption *CmdOption) (str
 		resultsJson, err = json.Marshal(results)
 	}
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
-	return string(resultsJson), nil
+	for _, result := range results {
+		if result.Err != nil {
+			return string(resultsJson), 2, nil
+		}
+	}
+
+	return string(resultsJson), 0, nil
 }
 
-func deleteGameServers(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, error) {
+func deleteGameServers(kubeOption *options.KubeOption, cmdOption *CmdOption) (string, int, error) {
 	d := deleter.NewDeleter(&deleter.DeleterOption{
 		KubeOption: *kubeOption,
 	})
 
 	gameServers, err := getFilteredGameServers(kubeOption, cmdOption)
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
 	results := d.DeleteGameServers(gameServers)
@@ -253,10 +278,16 @@ func deleteGameServers(kubeOption *options.KubeOption, cmdOption *CmdOption) (st
 		resultsJson, err = json.Marshal(results)
 	}
 	if err != nil {
-		return "", err
+		return "", 1, err
 	}
 
-	return string(resultsJson), nil
+	for _, result := range results {
+		if result.Err != nil {
+			return string(resultsJson), 2, nil
+		}
+	}
+
+	return string(resultsJson), 0, nil
 }
 
 func getFilteredGameServers(kubeOption *options.KubeOption, cmdOption *CmdOption) ([]*v1alpha1.GameServer, error) {
