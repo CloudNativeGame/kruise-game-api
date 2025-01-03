@@ -3,7 +3,7 @@ module github.com/CloudNativeGame/kruise-game-api/facade/kruisegamectl
 go 1.23.3
 
 require (
-	github.com/CloudNativeGame/kruise-game-api v0.0.4
+	github.com/CloudNativeGame/kruise-game-api v0.0.7
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/openkruise/kruise-game v0.9.0
 )
