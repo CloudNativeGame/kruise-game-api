@@ -14,6 +14,7 @@ func getNamespaceNamePathParam(c *gin.Context) (namespace, name string, ok bool)
 		msg := "namespace and name must been provided in path parameter"
 		slog.Error(msg)
 		c.String(http.StatusInternalServerError, msg)
+		return
 	}
 	ok = true
 	return
