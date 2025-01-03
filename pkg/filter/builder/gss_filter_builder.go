@@ -72,6 +72,16 @@ func (g *GssFilterBuilder) NamespaceObject(obj builder.FilterBuilderObject) *Gss
 	return g
 }
 
+func (g *GssFilterBuilder) Name(namespace string) *GssFilterBuilder {
+	g.filterBuilder.KStringV("name", namespace)
+	return g
+}
+
+func (g *GssFilterBuilder) NameObject(obj builder.FilterBuilderObject) *GssFilterBuilder {
+	g.filterBuilder.KObjectV("name", obj)
+	return g
+}
+
 func (g *GssFilterBuilder) Images(containerImages []ContainerImage) *GssFilterBuilder {
 	g.filterBuilder.KStringArrayV("images", ContainerImagesToStringArray(containerImages))
 	return g

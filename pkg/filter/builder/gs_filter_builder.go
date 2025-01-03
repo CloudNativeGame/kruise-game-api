@@ -92,6 +92,16 @@ func (g *GsFilterBuilder) NamespaceObject(obj builder.FilterBuilderObject) *GsFi
 	return g
 }
 
+func (g *GsFilterBuilder) Name(name string) *GsFilterBuilder {
+	g.filterBuilder.KStringV("name", name)
+	return g
+}
+
+func (g *GsFilterBuilder) NameObject(obj builder.FilterBuilderObject) *GsFilterBuilder {
+	g.filterBuilder.KObjectV("name", obj)
+	return g
+}
+
 func (g *GsFilterBuilder) CurrentNetworkState(currentNetworkState string) *GsFilterBuilder {
 	g.filterBuilder.KStringV("currentNetworkState", currentNetworkState)
 	return g
