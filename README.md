@@ -11,6 +11,7 @@ Filtering query and update operation API for kruise-game resources.
 | Key                 | Value Type    | Filtered Field                            | Filter Examples                                    |
 |---------------------|---------------|-------------------------------------------|----------------------------------------------------|
 | namespace           | String Filter | /metadata/namespace                       | `{"namespace": {"$in":["minecraft", "terraria"]}}` |
+| name                | String Filter | /metadata/name                            | `{"name": {"$regex":"^minecraft"}}`                |
 | opsState            | String Filter | /spec/opsState                            | `{"opsState": {"$eq": "None"}}`                    |
 | updatePriority      | Number Filter | /spec/updatePriority                      | `{"updatePriority": {"$ne": 0}}`                   |
 | deletionPriority    | Number Filter | /spec/deletionPriority                    | `{"deletionPriority": {"$ne": 0}}`                 |
@@ -22,6 +23,7 @@ Filtering query and update operation API for kruise-game resources.
 | Key       | Value Type          | Filtered Field                                                                                                                                                                                                        | Filter Examples                                                                             |
 |-----------|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
 | namespace | String Filter       | /metadata/namespace                                                                                                                                                                                                   | `{"namespace": {"$in":["minecraft", "terraria"]}}`                                          |
+| name | String Filter       | /metadata/name                                                                                                                                                                                                   | `{"namespace": {"$in":["minecraft", "terraria"]}}`                                          |
 | images    | String Array Filter | [/spec/gameServerTemplate/spec/containers[0].name+","+/spec/gameServerTemplate/spec/containers[0].image, /spec/gameServerTemplate/spec/containers[1].name+","+/spec/gameServerTemplate/spec/containers[1].image, ...] | `{"images": {"$all":["minecraft,itzg/minecraft-server:java21", "sidecar,busybox:latest"]}}` |
 
 * Use [JSON Patch](https://datatracker.ietf.org/doc/html/rfc6902) as update syntax.

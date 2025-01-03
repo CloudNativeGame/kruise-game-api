@@ -21,6 +21,9 @@ func NewGssFilter(option *FilterOption) *GssFilter {
 			return gssfilters.NewNamespaceFilter(f)
 		},
 		func(f *factory.FilterFactory[*v1alpha1.GameServerSet]) scene_filter.ISceneFilter[*v1alpha1.GameServerSet] {
+			return gssfilters.NewNameFilter(f)
+		},
+		func(f *factory.FilterFactory[*v1alpha1.GameServerSet]) scene_filter.ISceneFilter[*v1alpha1.GameServerSet] {
 			return gssfilters.NewImagesFilter(f)
 		},
 	})
