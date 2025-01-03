@@ -1,6 +1,8 @@
 package queryer
 
 import (
+	"log/slog"
+
 	"github.com/CloudNativeGame/kruise-game-api/internal/utils"
 	"github.com/CloudNativeGame/kruise-game-api/pkg/options"
 	"github.com/openkruise/kruise-game/apis/v1alpha1"
@@ -8,7 +10,6 @@ import (
 	"github.com/openkruise/kruise-game/pkg/client/informers/externalversions"
 	v1alpha1Lister "github.com/openkruise/kruise-game/pkg/client/listers/apis/v1alpha1"
 	"k8s.io/apimachinery/pkg/labels"
-	"log/slog"
 )
 
 type IQueryer interface {
@@ -61,12 +62,20 @@ func (q *Queryer) start(gameServerInformerFactory externalversions.SharedInforme
 	slog.Info("all informers have synced")
 }
 
+func (q *Queryer) GetGameServer(namespace, name string) (*v1alpha1.GameServer, error) {
+	return q.gameServerLister.GameServers(namespace).Get(name)
+}
+
 func (q *Queryer) GetGameServers() ([]*v1alpha1.GameServer, error) {
 	gameServers, err := q.gameServerLister.List(q.selector)
 	if err != nil {
 		return nil, err
 	}
 	return gameServers, nil
+}
+
+func (q *Queryer) GetGameServerSet(namespace, name string) (*v1alpha1.GameServerSet, error) {
+	return q.gameServerSetLister.GameServerSets(namespace).Get(name)
 }
 
 func (q *Queryer) GetGameServerSets() ([]*v1alpha1.GameServerSet, error) {

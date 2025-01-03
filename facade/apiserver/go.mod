@@ -11,6 +11,8 @@ require (
 	google.golang.org/protobuf v1.34.2
 )
 
+replace github.com/CloudNativeGame/kruise-game-api v0.0.4 => ../..
+
 require (
 	github.com/CloudNativeGame/structured-filter-go v0.0.6 // indirect
 	github.com/bytedance/sonic v1.11.9 // indirect
