@@ -9,4 +9,4 @@ FROM golang:1.23-alpine
 COPY --from=build /bin/kruise-game-api-server /
 ENV GIN_MODE=release
 
-CMD ["/kruise-game-api-server"]
+ENTRYPOINT ["/kruise-game-api-server"]

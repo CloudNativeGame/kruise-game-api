@@ -17,7 +17,9 @@ spec:
     spec:
       containers:
         - name: kruise-game-api-server
-          image: crpi-8cm99ihkk1hz8ju9.cn-shenzhen.personal.cr.aliyuncs.com/scottliu/kruise-game-api-server:v0.0.8
+          image: crpi-8cm99ihkk1hz8ju9.cn-shenzhen.personal.cr.aliyuncs.com/scottliu/kruise-game-api-server:v0.0.9
+          args:
+            - -print-body=true
           ports:
             - name: http
               containerPort: 8080

@@ -9,4 +9,4 @@ FROM golang:1.23-alpine
 COPY --from=build /bin/kruisegamectl /
 ENV GIN_MODE=release
 
-CMD ["/kruisegamectl"]
+ENTRYPOINT ["/kruisegamectl"]
