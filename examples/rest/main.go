@@ -55,7 +55,7 @@ func gssDemo() {
 }
 
 func main() {
-	_ = os.Setenv("SERVER_URL", "http://192.168.2.2")
+	_ = os.Setenv("KRUISE_GAME_API_SERVER_URL", "http://192.168.2.2")
 
 	gsDemo()
 	gssDemo()

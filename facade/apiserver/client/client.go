@@ -23,7 +23,7 @@ type KruiseGameApiHttpClient struct {
 }
 
 func NewKruiseGameApiHttpClient() *KruiseGameApiHttpClient {
-	serverUrl := os.Getenv("SERVER_URL")
+	serverUrl := os.Getenv("KRUISE_GAME_API_SERVER_URL")
 	if serverUrl == "" {
 		serverUrl = "http://kruise-game-api.kruise-game-system.svc.cluster.local"
 	}

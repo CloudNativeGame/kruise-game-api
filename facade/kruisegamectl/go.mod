@@ -1,6 +1,6 @@
 module github.com/CloudNativeGame/kruise-game-api/facade/kruisegamectl
 
-go 1.23.3
+go 1.23
 
 require (
 	github.com/CloudNativeGame/kruise-game-api v0.0.7
